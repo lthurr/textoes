@@ -4,17 +4,14 @@ from mathml_client import SnuggleTexClient
 from preprocessor import PreProcessor
 from language_generator import LanguageGenerator
 
-mathml_string = ""
-mathml_string = mathml_string.replace('\n', '').replace('ci ', 'ci&').replace(' ', '').replace('ci&', 'ci ')
-
 
 class TexToES(object):
 
-    def __init__(self, namespace):
-        self.latex = namespace.latex
-        self.cmathml = namespace.cmathml
-        self.filename = namespace.filename
-        self.verbose = namespace.verbose
+    def __init__(self, latex, cmathml, filename, verbose):
+        self.latex = latex
+        self.cmathml = cmathml
+        self.filename = filename
+        self.verbose = verbose
 
     def process_input(self):
         if self.filename:
@@ -29,17 +26,31 @@ class TexToES(object):
 
     def __process_latex(self):
         snuggletex = SnuggleTexClient()
-        string = snuggletex.latex_to_mathml(self.latex)
-        verb_generated = verbalizer(string, False)
-        self.__output_logging('LaTeX sring', self.latex, verb_generated)
+        mathml_string = snuggletex.latex_to_mathml(self.latex)
+        self.__input_logging('LaTeX sring', self.latex)
+        verb_generated = self.__process_cmathml(mathml_string)
+        self.__output_logging(verb_generated)
+        return verb_generated
 
-    def __process_cmathml(self):
-        pass
+    def __process_cmathml(self, mathml_string=None):
+        if not mathml_string:
+            mathml_string = self.cmathml
+        p = PreProcessor()
+        self.__input_logging('CMathML string', mathml_string)
+        stack_constructor = p.process(mathml_string)
+        if self.verbose:
+            print stack_constructor
+        lg = LanguageGenerator()
+        verb_generated = lg.generate_sub_language(stack_constructor, self.verbose)
+        self.__output_logging(verb_generated)
+        return verb_generated
 
-    def __output_logging(self, msg, input, output):
+    def __input_logging(self, msg, input):
         print "++++++++++ Processing %s ++++++++++" % msg
-        print "LaTeX string received:\n\t%s\n" % input
-        print "Output\n\t%s" % output
+        print "%s received:\n\t%s\n" % (msg, input)
+
+    def __output_logging(self, output):
+        print "\nOutput\n\t%s" % output
         print "+++++++++++++++++++++++++++++++++++++++++++++"
 
 
@@ -51,16 +62,6 @@ def evidence_writer(tex_formula, mathml, verb_result):
     evidence_file['ejemplo_' + str(total_of_evidences)]['mathml'] = mathml
     evidence_file['ejemplo_' + str(total_of_evidences)]['verb'] = verb_result
     evidence_file.write()
-
-
-def verbalizer(mathml, logging=False):
-    p = PreProcessor()
-    stack_constructor = p.process(mathml)
-    if logging:
-        print stack_constructor
-    lg = LanguageGenerator()
-    verb_generated = lg.generate_sub_language(stack_constructor, logging)
-    return verb_generated
 
 
 def check_txt(file_arg):
@@ -100,5 +101,10 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', type=bool, required=False, default=False)
     args = parser.parse_args()
     check_arguments(args)
-    tte = TexToES(args)
+    tte = TexToES(
+        filename=args.filename,
+        latex=args.latex,
+        cmathml=args.cmathml,
+        verbose=args.verbose
+    )
     tte.process_input()
