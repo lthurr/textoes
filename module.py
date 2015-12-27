@@ -22,27 +22,40 @@ class TexToES(object):
             self.__process_cmathml()
 
     def __process_file(self):
-        pass
+        self.__input_logging("File", self.filename)
+        with open('output.txt', 'w') as out:
+            with open(self.filename, 'r+') as f:
+                for line in f.readlines():
+                    while '$' in line:
+                        i = line.index('$')
+                        j = line.index('$', i+1)
+                        self.latex = line[i:j].strip('$')
+                        verb_generated = self.__process_latex()
+                        line = line.replace('$' + self.latex + '$', verb_generated)
+                    out.write(line)
+        self.__output_logging("New file created: output.txt")
 
-    def __process_latex(self):
+    def __process_latex(self, logging=True):
         snuggletex = SnuggleTexClient()
         mathml_string = snuggletex.latex_to_mathml(self.latex)
-        self.__input_logging('LaTeX sring', self.latex)
-        verb_generated = self.__process_cmathml(mathml_string)
-        self.__output_logging(verb_generated)
+        if logging:
+            self.__input_logging('LaTeX sring', self.latex)
+        verb_generated = self.__process_cmathml(mathml_string, logging=False)
+        if logging:
+            self.__output_logging(verb_generated)
         return verb_generated
 
-    def __process_cmathml(self, mathml_string=None):
+    def __process_cmathml(self, mathml_string=None, logging=True):
         if not mathml_string:
             mathml_string = self.cmathml
         p = PreProcessor()
-        self.__input_logging('CMathML string', mathml_string)
+        if logging:
+            self.__input_logging('CMathML string', mathml_string)
         stack_constructor = p.process(mathml_string)
-        if self.verbose:
-            print stack_constructor
         lg = LanguageGenerator()
         verb_generated = lg.generate_sub_language(stack_constructor, self.verbose)
-        self.__output_logging(verb_generated)
+        if logging:
+            self.__output_logging(verb_generated)
         return verb_generated
 
     def __input_logging(self, msg, input):
@@ -73,11 +86,11 @@ def check_txt(file_arg):
 
 
 def check_tex(tex_arg):
-    value = str(tex_arg)
+    value = str(tex_arg).strip()
     if not (value.startswith('$') or value.startswith('$')):
         msg = "%s is not a tex string, must start and end with '$'" % value
         raise argparse.ArgumentTypeError(msg)
-    return value[1:-1]
+    return value.strip('$')
 
 
 def check_arguments(args):
