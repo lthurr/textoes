@@ -27,6 +27,8 @@ class SnuggleTexClient(object):
         request = requests.post(url, data=payload, headers=self.headers, verify=False)
         request.encoding = 'utf-8'
         cmathml = self.__parse_cmathml(request.text)
+        if not cmathml:
+            cmathml = self.__manage_unhandled_input(latex)
         return cmathml
 
     def pmathml_to_cmathml(self, pmathml):
@@ -45,9 +47,12 @@ class SnuggleTexClient(object):
     @staticmethod
     def __parse_cmathml(webpage_text):
         cmathml_box = re.search('<h3>Content MathML</h3>(.|\n)*?<h3>Maxima Input Syntax</h3>', webpage_text).group()
-        cmathml_string = re.search('&lt;math(.|\n)*?/math&gt;', cmathml_box).group()
-        cmathml_string = '\n'.join(cmathml_string.split('\n')[1:-1])
-        return unescape(cmathml_string.strip())
+        try:
+            cmathml_string = re.search('&lt;math(.|\n)*?/math&gt;', cmathml_box).group()
+            cmathml_string = '\n'.join(cmathml_string.split('\n')[1:-1])
+            return unescape(cmathml_string.strip())
+        except AttributeError:
+            return None
 
     @staticmethod
     def __parse_cmathml_content(webpage_text):
@@ -64,3 +69,12 @@ class SnuggleTexClient(object):
                 cmathml.append(k)
         cmathml = '\n'.join(cmathml[2:])
         return '<math>\n' + unescape(cmathml) + '\n</math>'
+
+    def __manage_unhandled_input(self, tex_string):
+        mathml_string = None
+        if tex_string.startswith('\sum_'):
+            vbar, lowlimit, uplimit, body = re.search(r'\\sum_{(.)=(.*)}\^(\S*) (\S*)', tex_string).groups()
+            snuggletex = SnuggleTexClient()
+            bodymathml = self.latex_to_mathml(body)
+            mathml_string = """<apply><sum/><bvar><ci>%s</ci></bvar><lowlimit><ci>%s</ci></lowlimit><uplimit><ci>%s</ci></uplimit>%s</apply>""" % (vbar, lowlimit, uplimit, bodymathml)
+        return mathml_string
