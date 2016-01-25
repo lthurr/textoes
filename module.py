@@ -3,6 +3,7 @@ from configobj import ConfigObj
 from mathml_client import SnuggleTexClient
 from preprocessor import PreProcessor
 from language_generator import LanguageGenerator
+import os
 
 
 class TexToES(object):
@@ -15,39 +16,39 @@ class TexToES(object):
 
     def process_input(self):
         if self.filename:
-            self.__process_file()
+            return self.__process_file(self.filename)
         elif self.latex:
-            self.__process_latex()
+            return self.__process_latex(self.latex)
         elif self.cmathml:
-            self.__process_cmathml()
+            return self.__process_cmathml(self.cmathml)
 
-    def __process_file(self):
-        self.__input_logging("File", self.filename)
-        with open('output.txt', 'w') as out:
-            with open(self.filename, 'r+') as f:
+    def __process_file(self, filename):
+        self.__input_logging("File", filename)
+        output_filename = os.path.basename(filename).replace('.txt', '_output.txt')
+        with open(output_filename, 'w') as out:
+            with open(filename, 'r+') as f:
                 for line in f.readlines():
                     while '$' in line:
                         i = line.index('$')
                         j = line.index('$', i+1)
-                        self.latex = line[i:j].strip('$')
-                        verb_generated = self.__process_latex()
-                        line = line.replace('$' + self.latex + '$', verb_generated)
+                        latex_string = line[i:j].strip('$')
+                        verb_generated = self.__process_latex(latex_string)
+                        line = line.replace('$' + latex_string + '$', verb_generated)
                     out.write(line)
-        self.__output_logging("New file created: output.txt")
+        self.__output_logging("New file created: %s." % output_filename)
+        return open(output_filename, 'r').readlines()
 
-    def __process_latex(self, logging=True):
+    def __process_latex(self, latex_str, logging=True):
         snuggletex = SnuggleTexClient()
-        mathml_string = snuggletex.latex_to_mathml(self.latex)
+        mathml_string = snuggletex.latex_to_mathml(latex_str)
         if logging:
-            self.__input_logging('LaTeX sring', self.latex)
+            self.__input_logging('LaTeX sring', latex_str)
         verb_generated = self.__process_cmathml(mathml_string, logging=False)
         if logging:
             self.__output_logging(verb_generated)
         return verb_generated
 
-    def __process_cmathml(self, mathml_string=None, logging=True):
-        if not mathml_string:
-            mathml_string = self.cmathml
+    def __process_cmathml(self, mathml_string, logging=True):
         p = PreProcessor()
         if logging:
             self.__input_logging('CMathML string', mathml_string)
@@ -104,16 +105,23 @@ def check_arguments(args):
 
 
 if __name__ == '__main__':
+
     parser = argparse.ArgumentParser(description='textoes transform tex/mathml input into spanish')
+
     parser.add_argument('-f', '--filename', type=check_txt, required=False,
                         help="A txt file latex content inside $..$ to convert into ES.")
+
     parser.add_argument('--latex', type=check_tex, required=False,
                         help="LaTeX code to convert into ES")
+
     parser.add_argument('--cmathml', type=str, required=False,
                         help="ContentMathML code to convert into ES")
+
     parser.add_argument('--verbose', type=bool, required=False, default=False)
+
     args = parser.parse_args()
     check_arguments(args)
+
     tte = TexToES(
         filename=args.filename,
         latex=args.latex,

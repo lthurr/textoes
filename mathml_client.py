@@ -8,7 +8,7 @@ class SnuggleTexClient(object):
     def __init__(self):
         self.url = 'https://math-xserver.mitx.mit.edu/snuggletex-webapp-1.2.2'
         self.uris = {
-            'mathml_inpu': '/ASCIIMathMLUpConversionDemo',
+            'mathml_input': '/ASCIIMathMLUpConversionDemo',
             'latex_input': '/UpConversionDemo'
         }
         self.headers = {
@@ -35,7 +35,7 @@ class SnuggleTexClient(object):
         """
         Handle requests to snuggletex API to convert the Ascii math to MathML
         """
-        url = self.url + self.uris['mathml_inpu']
+        url = self.url + self.uris['mathml_input']
         payload = {
             'asciiMathML': pmathml,
         }
