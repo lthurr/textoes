@@ -251,4 +251,4 @@ verb = ((maximo entre 1 2 3 4) es igual a 4)
 [ejemplo_50]
 tex = \prod_{x=a}^{b}f(x)
 mathml = <apply><product/><bvar><ci>x</ci></bvar><lowlimit><ci>a</ci></lowlimit><uplimit><ci>b</ci></uplimit><apply><ci type="function">f</ci><ci>x</ci></apply></apply>
-verb = (productoria de X que va desde A hasta B de (F aplicado a X))
+verb = (la productoria de X que va desde A hasta B de (F aplicado a X))

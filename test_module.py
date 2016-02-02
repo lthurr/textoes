@@ -1,6 +1,6 @@
 import unittest
 from configobj import ConfigObj
-from module import verbalizer
+from module import TexToES
 from mathml_client import SnuggleTexClient
 
 
@@ -14,7 +14,8 @@ class KnownGood(unittest.TestCase):
 
     def runTest(self):
         self.__name__ = 'test_example_%d' % self.example_id
-        self.assertEqual(verbalizer(self.input), self.output)
+        a = TexToES(latex=None, cmathml=self.input, verbose=False, filename=None)
+        self.assertEqual(a.process_input(), self.output)
 
 
 def suite():

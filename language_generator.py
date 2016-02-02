@@ -1,5 +1,6 @@
 from configobj import ConfigObj
 from os import path
+import re
 
 
 class LanguageGenerator(object):
@@ -97,11 +98,14 @@ class LanguageGenerator(object):
         assert arity == len(values), "There is more values to unpack"
         result, values, arity = self.prepare_operator(key_op, operator, values)
         if arity == 1:
-            return '(' + result.replace("$OP1$", '').replace("$OP2$", values[0]) + ')'
+            return '(' + result.replace("$VAR$", values[0]) + ')'
         elif arity == 2:
-            return '(' + result.replace("$OP1$", values[0]).replace("$OP2$", values[1]) + ')'
+            result = re.sub(r'(\$VAR\$)', values[0], result, count=1)
+            result = re.sub(r'(\$VAR\$)', values[1], result, count=1)
+            return '(' + result + ')'
         elif arity >= 3:
-            new_operator = result.replace("$OP1$", values[0]).replace("$OP2$", operator)
+            result = re.sub(r'(\$VAR\$)', values[0], result, count=1)
+            new_operator = re.sub(r'(\$VAR\$)', operator, result, count=1)
             return self.replace_values(key_op, new_operator, arity - 1, values[1:])
 
     def replace_constants(self, stack):
