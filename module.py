@@ -4,6 +4,7 @@ from mathml_client import SnuggleTexClient
 from preprocessor import PreProcessor
 from language_generator import LanguageGenerator
 import os
+import lxml.etree as etree
 
 
 class TexToES(object):
@@ -51,7 +52,8 @@ class TexToES(object):
     def __process_cmathml(self, mathml_string, logging=True):
         p = PreProcessor()
         if logging:
-            self.__input_logging('CMathML string', mathml_string)
+            xml = etree.fromstring(mathml_string)
+            self.__input_logging('CMathML string', etree.tostring(xml, pretty_print=True))
         stack_constructor = p.process(mathml_string)
         lg = LanguageGenerator()
         verb_generated = lg.generate_sub_language(stack_constructor, self.verbose)
@@ -61,10 +63,10 @@ class TexToES(object):
 
     def __input_logging(self, msg, input):
         print "++++++++++ Processing %s ++++++++++" % msg
-        print "%s received:\n\t%s\n" % (msg, input)
+        print "%s received:\n%s\n" % (msg, input)
 
     def __output_logging(self, output):
-        print "\nOutput\n\t%s" % output
+        print "Output\n\t%s" % output
         print "+++++++++++++++++++++++++++++++++++++++++++++"
 
 
