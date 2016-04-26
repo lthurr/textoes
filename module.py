@@ -3,6 +3,7 @@ from configobj import ConfigObj
 from mathml_client import SnuggleTexClient
 from preprocessor import PreProcessor
 from language_generator import LanguageGenerator
+from language_model import LanguageModel
 import os
 import lxml.etree as etree
 
@@ -60,6 +61,12 @@ class TexToES(object):
         if logging:
             self.__output_logging(verb_generated)
         return verb_generated
+
+    def get_transcription_from(self, transcription):
+        import re
+        transcription = re.sub(r'[A-Z]', '$TERM$', transcription)
+        transcription = re.sub(r'[0-9]', '$TERM$', transcription)
+        return transcription
 
     def __input_logging(self, msg, input):
         print "++++++++++ Processing %s ++++++++++" % msg
@@ -130,4 +137,7 @@ if __name__ == '__main__':
         cmathml=args.cmathml,
         verbose=args.verbose
     )
-    tte.process_input()
+    result = tte.process_input()
+    transcription = tte.get_transcription_from(result)
+    lm = LanguageModel(corpus_path=os.path.join(os.getcwd(), 'corpus'))
+    print "Evaluacion: %s" % str(lm.evaluate_transcription(transcription))
