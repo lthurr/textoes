@@ -4,7 +4,6 @@ from collections import defaultdict
 import csv
 import re
 import os
-#from nltk.tag.stanford import StanfordPOSTagger
 
 number_names = ['cero', 'uno', r'\bdos\b', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'un tercio', 'sexta', 'sextoava', 'un sexto', 'cuarta', 'un medio', 'cubo', 'cuadrado']
 constant_names = ['equis', 'i griega', 'efe', r'\bx\b', r'\bexis\b', r'\bce\b', r'\bc\b', r'\bb\b', r'\bbe\b', r'\bye\b',r'\bi\b', r'\bp\b', r'\bpe\b', r'\br\b', r'\bere\b']
@@ -16,7 +15,7 @@ bracket_rules = {
     'n1e3': {'r1': [(1, 2), (1, 3)], 'r2': [(1, 2), (1, 3)], 'r3': [(3, 4), (1, 2)]},
     'n1e4': {'r1': [], 'r2': [], 'r3': [(2, 3)]},
     'n1e5': {'r1': [(1, 2)], 'r2': [(1, 2), (3, 4)], 'r3': []},
-    'n2e1': {'r1': [(1, 2)], 'r2': [(1, 2)], 'r3': []},
+    'n2e1': {'r1': [(-1, -1)], 'r2': [(1, 2)], 'r3': []},
     'n2e4': {'r1': [], 'r2': [(1, 2)], 'r3': [(2, 3)]}
 }
 
@@ -24,13 +23,10 @@ bracket_rules = {
 class LanguageModel(object):
 
     def __init__(self, corpus_path='corpus/'):
-        self.corpus_path = corpus_path
+        self.corpus_path = corpus_path if corpus_path.endswith(os.path.sep) else corpus_path + os.path.sep
         self.parsed_responses_file = os.path.join(self.corpus_path, 'parsed_responses.txt')
         self.corpus_file = os.path.join(self.corpus_path, 'corpus.txt')
         self.summarized_corpus = os.path.join(self.corpus_path, 'summarized_corpus.txt')
-        # model_data = os.path.join(os.getcwd(), "corpus", "model", "spanish.tagger")
-        # jar_file = os.path.join(os.getcwd(), "corpus", "model", "stanford-postagger.jar")
-        # self.spanish_postagger = StanfordPOSTagger(model_data, jar_file)
 
     def __analizing_csv_file(self, filename):
         self.csv_file = filename.split('\\')[-1].replace('.csv', '').lower()
@@ -51,8 +47,16 @@ class LanguageModel(object):
         response = self.put_brackets(response, bracket_rules[self.csv_file][response_i])
         return response
 
+    def __all_covered_by_brackets(self, response):
+        while response.find('(') != -1:
+            i = response.rfind('(')
+            j = response.find(')', i)
+            response = response[:i] + response[j+1:]
+        return response == ''
+
     def put_brackets(self, str, rules):
         result = str.split()
+        print str
         if rules and rules != [(-1, -1)]:
             str = str.replace('(', '').replace(')', '').replace('parentesis', '')
             words = str.split()
@@ -64,18 +68,18 @@ class LanguageModel(object):
                 words[last] = words[last] + ')'
             words[0], words[-1] = '(' + words[0], words[-1] + ')'
             result = words
-        if not result[0].startswith('(') and not result[-1].endswith(')'):
+        if not self.__all_covered_by_brackets(' '.join(result)):
             result[0], result[-1] = '(' + result[0], result[-1] + ')'
         return ' '.join(result)
 
-    def _get_multiple_responses(self, str, response_i):
-        str = str.strip('\n')
-        str = str.replace('\n\n', '\n')
-        str = str.replace('  ', ' ')
-        responses = str.split('\n')
+    def _get_multiple_responses(self, raw_response, i):
+        raw_response = raw_response.strip('\n')
+        raw_response = raw_response.replace('\n\n', '\n')
+        raw_response = raw_response.replace('  ', ' ')
+        responses = raw_response.split('\n')
         result = list()
         for resp in responses:
-            result.append(self.__clean_response(resp, response_i))
+            result.append(self.__clean_response(resp, i))
         return result
 
     def _parse_csv_row(self, row):
@@ -90,7 +94,7 @@ class LanguageModel(object):
 
     def prepare_corpus(self):
         csv_files = glob.glob(self.corpus_path + '*.csv')
-        csv_files = filter(lambda x: x.split('\\')[1].lower()[:-4] in bracket_rules.keys(), csv_files)
+        csv_files = filter(lambda x: x.split('\\')[-1].lower()[:-4] in bracket_rules.keys(), csv_files)
         with open(self.parsed_responses_file, 'w') as parsed_responses:
             for file in csv_files:
                 responses = defaultdict(list)
@@ -122,8 +126,7 @@ class LanguageModel(object):
         with open(self.summarized_corpus, 'w') as s_corpus:
             for line in corpus:
                 summarized_data[line] += 1
-            s_corpus.write('\n'.join(["%s,%s" % (y, x.strip('\n')) for x, y in summarized_data.iteritems() ]))#if int(y)>5]))
-
+            s_corpus.write('\n'.join(["%s,%s" % (y, x.strip('\n')) for x, y in summarized_data.iteritems() if int(y)>=10]))
 
     def __get_terms_from_transcription(self, transcription):
         result = []
@@ -134,14 +137,29 @@ class LanguageModel(object):
             transcription = transcription[:i] + '$TERM$' + transcription[j:]
         return result
 
+    def evaluate_term(self, corpus, term):
+        count_term = 0
+        for data in corpus:
+            if data.split(',')[-1] == term:
+                count_term = int(data.split(',')[1])
+                class_term = data.split(',')[0]
+        if count_term == 0:
+            return 1.0
+        else:
+            factor = 1.0
+            for data in corpus:
+                if data.split(',')[0] == class_term:
+                    factor += int(data.split(',')[1])
+            return count_term / float(factor)
+
     def evaluate_transcription(self, transcription):
-        if not os.path.exists(os.path.join(os.getcwd(), "corpus", "corpus.txt")):
+        if not os.path.exists(self.corpus_file):
             self.prepare_corpus()
             self.parse_corpus()
             self.summarize_corpus()
-        corpus = open(self.corpus_file).readlines()
+        corpus = open(self.summarized_corpus).read().split('\n')
         terms = self.__get_terms_from_transcription(transcription)
-        evaluation = 1.0
+        evaluation = list()
         for term in terms:
-            evaluation *= corpus.count(term+'\n')/float(len(corpus))
-        return evaluation * 4000000
+            evaluation.append(self.evaluate_term(corpus, term))
+        return sum(evaluation)/float(len(evaluation))

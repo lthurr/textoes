@@ -138,6 +138,7 @@ if __name__ == '__main__':
         verbose=args.verbose
     )
     result = tte.process_input()
-    transcription = tte.get_transcription_from(result)
-    lm = LanguageModel(corpus_path=os.path.join(os.getcwd(), 'corpus'))
-    print "Evaluacion: %s" % str(lm.evaluate_transcription(transcription))
+    if args.cmathml or args.latex:
+        transcription = tte.get_transcription_from(result)
+        lm = LanguageModel(corpus_path=os.path.join(os.getcwd(), 'corpus'))
+        print "Evaluacion: %s" % str(lm.evaluate_transcription(transcription))
