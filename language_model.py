@@ -162,4 +162,4 @@ class LanguageModel(object):
         evaluation = list()
         for term in terms:
             evaluation.append(self.evaluate_term(corpus, term))
-        return sum(evaluation)/float(len(evaluation))
+        return sum(evaluation)/float(len(evaluation)) * 100

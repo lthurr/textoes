@@ -40,25 +40,25 @@ class TexToES(object):
         self.__output_logging("New file created: %s." % output_filename)
         return open(output_filename, 'r').readlines()
 
-    def __process_latex(self, latex_str, logging=True):
+    def __process_latex(self, latex_str, logging=False):
         snuggletex = SnuggleTexClient()
         mathml_string = snuggletex.latex_to_mathml(latex_str)
-        if logging:
+        if self.verbose or logging:
             self.__input_logging('LaTeX sring', latex_str)
         verb_generated = self.__process_cmathml(mathml_string, logging=False)
-        if logging:
+        if self.verbose or logging:
             self.__output_logging(verb_generated)
         return verb_generated
 
-    def __process_cmathml(self, mathml_string, logging=True):
+    def __process_cmathml(self, mathml_string, logging=False):
         p = PreProcessor()
-        if logging:
+        if self.verbose or logging:
             xml = etree.fromstring(mathml_string)
             self.__input_logging('CMathML string', etree.tostring(xml, pretty_print=True))
         stack_constructor = p.process(mathml_string)
         lg = LanguageGenerator()
         verb_generated = lg.generate_sub_language(stack_constructor, self.verbose)
-        if logging:
+        if self.verbose or logging:
             self.__output_logging(verb_generated)
         return verb_generated
 
@@ -126,7 +126,7 @@ if __name__ == '__main__':
     parser.add_argument('--cmathml', type=str, required=False,
                         help="ContentMathML code to convert into ES")
 
-    parser.add_argument('--verbose', type=bool, required=False, default=False)
+    parser.add_argument('--verbose', type=lambda x: x in ['true', 'True'], required=False, default=False)
 
     args = parser.parse_args()
     check_arguments(args)
@@ -138,7 +138,8 @@ if __name__ == '__main__':
         verbose=args.verbose
     )
     result = tte.process_input()
+    print result
     if args.cmathml or args.latex:
         transcription = tte.get_transcription_from(result)
         lm = LanguageModel(corpus_path=os.path.join(os.getcwd(), 'corpus'))
-        print "Evaluacion: %s" % str(lm.evaluate_transcription(transcription))
+        print "%.2f" % lm.evaluate_transcription(transcription) + "%"

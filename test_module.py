@@ -49,4 +49,4 @@ def tex_suite():
     return suite
 
 if __name__ == '__main__':
-    unittest.TextTestRunner().run(suite())
+    unittest.TextTestRunner().run(tex_suite())
