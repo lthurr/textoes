@@ -3,7 +3,7 @@ from configobj import ConfigObj
 from mathml_client import SnuggleTexClient
 from preprocessor import PreProcessor
 from language_generator import LanguageGenerator
-from language_model import LanguageModel
+from language_evaluator import LanguageEvaluator
 import os
 import lxml.etree as etree
 
@@ -141,5 +141,5 @@ if __name__ == '__main__':
     print result
     if args.cmathml or args.latex:
         transcription = tte.get_transcription_from(result)
-        lm = LanguageModel(corpus_path=os.path.join(os.getcwd(), 'corpus'))
-        print "%.2f" % lm.evaluate_transcription(transcription) + "%"
+        le = LanguageEvaluator(corpus_path=os.path.join(os.getcwd(), 'corpus'))
+        print "%.2f" % le.evaluate_transcription(transcription) + "%"
