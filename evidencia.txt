@@ -64,12 +64,12 @@ mathml = <math><apply><neq/><ci>a</ci><ci>b</ci></apply></math>
 verb = (A no es igual a B)
 
 [ejemplo_13]
-tex = a \lt b
+tex = a < b
 mathml = <math><apply><lt/><ci>a</ci><ci>b</ci></apply></math>
 verb = (A es menor a B)
 
 [ejemplo_14]
-tex = a <= b
+tex = a \leq b
 mathml = <math><apply><leq/><ci>a</ci><ci>b</ci></apply></math>
 verb = (A es menor o igual a B)
 
@@ -159,7 +159,7 @@ mathml = <math><apply><not/><apply><leq/><ci>x</ci><cn>1</cn></apply></apply></m
 verb = ((X es menor o igual a 1) negado)
 
 [ejemplo_32]
-tex = x\approx 1
+tex = x \approx 1
 mathml = <apply><approx/><ci>x</ci><cn>1</cn></apply>
 verb = (X es aproximado a 1)
 
@@ -231,7 +231,7 @@ verb = ((raiz cuadrada de (raiz cuadrada de X)) es igual a (raiz 4 de X))
 [ejemplo_46]
 tex = x = \frac{-b + \sqrt {b^2-4ac}}{2a}
 mathml = <math><apply><eq/><ci>x</ci><apply><divide/><apply><plus/><apply><minus/><ci>b</ci></apply><apply><root/><apply><minus/><apply><power/><ci>b</ci><cn>2</cn></apply><apply><times/><cn>4</cn><ci>a</ci><ci>c</ci></apply></apply></apply></apply><apply><times/><cn>2</cn><ci>a</ci></apply></apply></apply></math>
-verb = (X es igual a ((( menos B) mas (raiz cuadrada de ((B elevado a la 2) menos (4 multiplicado por A multiplicado por C)))) dividido (2 multiplicado por A)))
+verb = (X es igual a (((menos B) mas (raiz cuadrada de ((B elevado a la 2) menos (4 multiplicado por A multiplicado por C)))) dividido (2 multiplicado por A)))
 
 [ejemplo_47]
 tex = {x | x<5}
@@ -239,7 +239,7 @@ mathml = <math><set><bvar><ci>x</ci></bvar><condition><apply><lt/><ci>x</ci><cn>
 verb = (el conjunto de todos X que cumplan que X sea (X es menor a 5))
 
 [ejemplo_48]
-tex = Z != 0
+tex = \mathbb{Z} \neq \emptyset
 mathml = <math><apply><neq/><integers/><emptyset/></apply></math>
 verb = (conjunto de los enteros no es igual a conjunto vacio)
 

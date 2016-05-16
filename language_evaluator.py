@@ -49,11 +49,12 @@ class LanguageEvaluator(object):
         return response
 
     def __all_covered_by_brackets(self, response):
-        while response.find('(') != -1:
-            i = response.rfind('(')
-            j = response.find(')', i)
-            response = response[:i] + response[j+1:]
-        return response == ''
+        str_to_check = response
+        while str_to_check.find('(') != -1:
+            i = str_to_check.rfind('(')
+            j = str_to_check.find(')', i)
+            str_to_check = str_to_check[:i] + str_to_check[j+1:]
+        return str_to_check == ''
 
     def put_brackets(self, str, rules):
         result = str.split()
@@ -164,3 +165,10 @@ class LanguageEvaluator(object):
         for term in terms:
             evaluation.append(self.evaluate_term(corpus, term))
         return sum(evaluation)/float(len(evaluation)) * 100
+
+    def get_latex_questions_from_forms(self):
+        result = []
+        for row in csv.reader(open(self.forms_data_path + 'questions_per_form.csv')):
+            if not row[0].startswith('#'):
+                result.append(row[2])
+        return result

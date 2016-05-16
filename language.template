@@ -1,9 +1,10 @@
 [template]
 
 #Constantes y constructores
-set = el conjunto de todos $VAR$ que cumplan que $bvar$ sea $condition$
+set = el conjunto de todos $VAR$ que cumplan que $bvar$ sea $condition$, el conjunto de $VAR$
 emptyset = conjunto vacio
 integers = conjunto de los enteros
+imaginaryi = i
 
 #Relaciones
 eq = $VAR$ es igual a $VAR$
@@ -18,7 +19,7 @@ factorof = $VAR$ divide a $VAR$
 
 #Operadores basicos
 plus = $VAR$ mas $VAR$
-minus = $VAR$ menos $VAR$
+minus = $VAR$ menos $VAR$, menos $VAR$
 times = $VAR$ multiplicado por $VAR$
 divide = $VAR$ dividido $VAR$
 power = $VAR$ elevado a la $VAR$
@@ -34,6 +35,7 @@ limit = el limite de $bvar$ que tiende $lowlimit$ de $VAR$
 not = $VAR$ negado
 and = $VAR$ y $VAR$
 or = $VAR$ o $VAR$
+implies = $VAR$ implica $VAR$
 
 #Conjuntos
 in = $VAR$ en $VAR$
@@ -41,9 +43,11 @@ notin = $VAR$ no esta en $VAR$
 intersect = $VAR$ intersectado con el conjunto $VAR$
 union = $VAR$ union $VAR$
 setdiff = $VAR$ menos el conjunto $VAR$
+prsubset = $VAR$ es subconjunto de $VAR$
 
 #Funciones conocidas
 function = $VAR$ aplicado a $VAR$
+inverse = $VAR$ inversa
 max = maximo entre $VAR$
 determinant = determinante de $VAR$
 gcd = maximo comun divisor entre $VAR$ y $VAR$

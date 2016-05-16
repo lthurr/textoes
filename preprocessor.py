@@ -1,10 +1,11 @@
+# coding=utf-8
 import xml.etree.ElementTree as ET
 
 
 class PreProcessor(object):
 
     def __init__(self):
-        self.tex_constructors = []
+        self.tex_constructors = ['set']
 
     def process(self, mathml_string_data):
         assert mathml_string_data.startswith('<')
@@ -42,6 +43,7 @@ class PreProcessor(object):
                 close_constructor_tag = '</' + constructor + '>'
                 result = result.replace(open_constructor_tag, '<apply>' + open_constructor_tag).\
                     replace(close_constructor_tag, close_constructor_tag + '</apply>')
+        result = result.replace(u'ℤ', 'integers')
         if '&' in mathml_string:
             result = result.replace('&', '').replace(';', '')
         return result

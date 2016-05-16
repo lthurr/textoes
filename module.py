@@ -104,11 +104,11 @@ def check_tex(tex_arg):
 
 
 def check_arguments(args):
-    args_as_list = [args.filename, args.latex, args.cmathml]
-    if args_as_list.count(None) == 3:
+    args_as_list = [args.filename, args.latex, args.cmathml, args.evaluate]
+    if args_as_list.count(None) == len(args_as_list):
         msg = "No arguments, -h for help"
         raise argparse.ArgumentTypeError(msg)
-    if not args_as_list.count(None) == 2:
+    if not args_as_list.count(None) == len(args_as_list) - 1:
         msg = "More than one args are passed, -h for help"
         raise argparse.ArgumentTypeError(msg)
 
@@ -126,20 +126,30 @@ if __name__ == '__main__':
     parser.add_argument('--cmathml', type=str, required=False,
                         help="ContentMathML code to convert into ES")
 
+    parser.add_argument('--evaluate', type=lambda x: x in ['true', 'True'], required=False)
+
     parser.add_argument('--verbose', type=lambda x: x in ['true', 'True'], required=False, default=False)
 
     args = parser.parse_args()
     check_arguments(args)
 
-    tte = TexToES(
-        filename=args.filename,
-        latex=args.latex,
-        cmathml=args.cmathml,
-        verbose=args.verbose
-    )
-    result = tte.process_input()
-    print result
-    if args.cmathml or args.latex:
-        transcription = tte.get_transcription_from(result)
-        le = LanguageEvaluator(corpus_path=os.path.join(os.getcwd(), 'corpus'))
-        print "%.2f" % le.evaluate_transcription(transcription) + "%"
+    le = LanguageEvaluator(corpus_path=os.path.join(os.getcwd(), 'corpus'))
+    if args.evaluate:
+        latex_forms_to_evaluate = le.get_latex_questions_from_forms()
+        for latex in latex_forms_to_evaluate:
+            tte = TexToES(filename=None, latex=latex, cmathml=None, verbose=args.verbose)
+            result = tte.process_input()
+            transcription = tte.get_transcription_from(result)
+            evaluation = le.evaluate_transcription(transcription)
+            print "%s -> %.2f" % (result, evaluation) + "%"
+    else:
+        tte = TexToES(
+            filename=args.filename,
+            latex=args.latex,
+            cmathml=args.cmathml,
+            verbose=args.verbose
+        )
+        result = tte.process_input()
+        if args.cmathml or args.latex:
+            transcription = tte.get_transcription_from(result)
+            print "%s -> %.2f" % (result, le.evaluate_transcription(transcription)) + "%"

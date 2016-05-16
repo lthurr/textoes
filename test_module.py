@@ -37,7 +37,7 @@ def tex_suite():
     snuggletex = SnuggleTexClient()
     for i in range(total_evidences):
         ejemplo = 'ejemplo_%d' % i
-        tex_form = evidence_file[ejemplo]['tex']
+        tex_form = ', '.join(evidence_file[ejemplo]['tex']) if isinstance(evidence_file[ejemplo]['tex'], list) else evidence_file[ejemplo]['tex']
         print tex_form
         try:
             mathml = snuggletex.latex_to_mathml(tex_form)
