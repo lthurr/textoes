@@ -1,10 +1,16 @@
-[template]
-
-#Constantes y constructores
-set = el conjunto de todos $VAR$ que cumplan que $bvar$ sea $condition$, el conjunto de $VAR$
-emptyset = conjunto vacio
-integers = conjunto de los enteros
+[constantes]
+infinity = infinito
 imaginaryi = i
+integers = conjunto de los enteros
+emptyset = conjunto vacio
+real = el conjunto de los reales
+
+[operadores]
+#Constructores
+list = la lista de $VAR$
+vector = el vector compuesto por $VAR$
+set = el conjunto de todos $VAR$ que cumplan que $bvar$ sea $condition$, el conjunto de $VAR$
+imaginary = Operacion imaginaria $VAR$
 
 #Relaciones
 eq = $VAR$ es igual a $VAR$
@@ -13,7 +19,7 @@ gt = $VAR$ es mayor a $VAR$
 geq = $VAR$ es mayor o igual a $VAR$
 lt = $VAR$ es menor a $VAR$
 leq = $VAR$ es menor o igual a $VAR$
-equiv = $VAR$ es equivalente a $VAR$
+equivalent = $VAR$ es equivalente a $VAR$
 approx = $VAR$ es aproximado a $VAR$
 factorof = $VAR$ divide a $VAR$
 

@@ -5,6 +5,9 @@ import re
 
 class LanguageGenerator(object):
 
+    k_constants = 'constantes'
+    k_operators = 'operadores'
+
     def generate_sub_language(self, stack, logging=False):
         self.replace_constants(stack)
         self.reorganize(stack)
@@ -16,7 +19,8 @@ class LanguageGenerator(object):
         assert len(stack) == 1
         return stack[0]
 
-    def reorganize(self, stack):
+    @staticmethod
+    def reorganize(stack):
         if 'inverse' in stack:
             i = stack.index('inverse')
             stack[i-1], stack[i] = stack[i], stack[i-1]
@@ -32,7 +36,7 @@ class LanguageGenerator(object):
         if key_op not in self.get_valids_operators_from_template():
             raise NotImplementedError('%s is not implemented' % key_op)
         config = self.get_language_template()
-        operator = config['template'][key_op]
+        operator = config[self.k_operators][key_op]
         arity = len(temp_stack) - 2
         if isinstance(operator, list):
             for op in operator:
@@ -67,7 +71,7 @@ class LanguageGenerator(object):
                 i = values.index('condition')
                 operator = operator.replace('')
                 # TODO Fix here
-        elif key_op in ['max', 'min']:
+        elif key_op in ['max', 'min', 'list', 'vector']:
             values = [' '.join(values)]
             arity = 1
         elif key_op == 'limit':
@@ -132,9 +136,10 @@ class LanguageGenerator(object):
 
     def replace_constants(self, stack):
         config = self.get_language_template()
-        for constant in ['INTEGERS', 'emptyset', 'imaginaryi']:
+        constants = self.get_valid_constants_from_template()
+        for constant in constants:
             if constant in stack:
-                c_tr = config['template'][constant.lower()]
+                c_tr = config[self.k_constants][constant.lower()]
                 i = stack.index(constant)
                 stack.insert(i, c_tr)
                 stack.remove(constant)
@@ -146,4 +151,8 @@ class LanguageGenerator(object):
 
     def get_valids_operators_from_template(self):
         config = self.get_language_template()
-        return config['template'].keys()
+        return config[self.k_operators].keys()
+
+    def get_valid_constants_from_template(self):
+        config = self.get_language_template()
+        return config[self.k_constants].keys()
