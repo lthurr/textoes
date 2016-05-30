@@ -135,13 +135,22 @@ if __name__ == '__main__':
 
     le = LanguageEvaluator(corpus_path=os.path.join(os.getcwd(), 'corpus'))
     if args.evaluate:
-        latex_forms_to_evaluate = le.get_latex_questions_from_forms()
-        for latex in latex_forms_to_evaluate:
-            tte = TexToES(filename=None, latex=latex, cmathml=None, verbose=args.verbose)
-            result = tte.process_input()
-            transcription = tte.get_transcription_from(result)
-            evaluation = le.evaluate_transcription(transcription)
-            print "%s -> %.2f" % (result, evaluation) + "%"
+        #latex_forms_to_evaluate = le.get_latex_questions_from_forms()
+        #for latex in latex_forms_to_evaluate:
+        #    tte = TexToES(filename=None, latex=latex, cmathml=None, verbose=args.verbose)
+        #    result = tte.process_input()
+        #    transcription = tte.get_transcription_from(result)
+        #    evaluation = le.evaluate_transcription(transcription)
+        #    print "%s -> %.2f" % (result, evaluation) + "%"
+        latex_forms_to_evaluate = le.get_latex_questions_from_hitl_form()
+        latex_used_in_form = le.get_latex_used_in_hitl_form()
+        result = 0.0
+        N = len(latex_forms_to_evaluate.keys())
+        for i, latex in latex_used_in_form.iteritems():
+            responses_that_are_equals = [elem for elem in latex_forms_to_evaluate[i] if elem==latex]
+            result += len(responses_that_are_equals)
+        print "%.2f" % (result/float(N**2))
+
     else:
         tte = TexToES(
             filename=args.filename,

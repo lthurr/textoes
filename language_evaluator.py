@@ -28,6 +28,7 @@ class LanguageEvaluator(object):
         self.parsed_responses_file = os.path.join(self.corpus_path, 'parsed_responses.txt')
         self.corpus_file = os.path.join(self.corpus_path, 'corpus.txt')
         self.summarized_corpus = os.path.join(self.corpus_path, 'summarized_corpus.txt')
+        self.hitl_data_path = os.path.join(self.corpus_path, 'hitl_responses/')
 
     def __analizing_csv_file(self, filename):
         self.csv_file = filename.split('\\')[-1].replace('.csv', '').lower()
@@ -171,4 +172,18 @@ class LanguageEvaluator(object):
         for row in csv.reader(open(self.forms_data_path + 'questions_per_form.csv')):
             if not row[0].startswith('#'):
                 result.append(row[2])
+        return result
+
+    def get_latex_questions_from_hitl_form(self):
+        result = defaultdict(list)
+        for row in csv.reader(open(self.hitl_data_path + 'responses_from_contributors.csv')):
+            for i, resp in enumerate(row):
+                result[i].append(resp)
+        return result
+
+    def get_latex_used_in_hitl_form(self):
+        result = dict()
+        for row in csv.reader(open(self.hitl_data_path + 'questions_form.csv')):
+            for i, resp in enumerate(row):
+                result[i] = resp
         return result
