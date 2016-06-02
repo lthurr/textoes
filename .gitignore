@@ -1,2 +1,9 @@
 *.pyc
-grammar.template
+*.aux
+*.bcf
+*.log
+*.run.xml
+*.synctex.gz
+*.toc
+*.psd
+*.out

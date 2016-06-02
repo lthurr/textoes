@@ -1,7 +1,7 @@
 [ejemplo_0]
 tex = 3x - 2 = 0
 mathml = <math><apply><eq/><apply><minus/><apply><times/><cn>3</cn><ci>x</ci></apply><cn>2</cn></apply><cn>0</cn></apply></math>
-verb = (((3 multiplicado por X) menos 2) es igual a 0)
+verb = (((3 por X) menos 2) es igual a 0)
 
 [ejemplo_1]
 tex = \sin x + \ln y + \cot z
@@ -16,17 +16,17 @@ verb = (X elevado a la A)
 [ejemplo_3]
 tex = x^{ab}
 mathml = <math><apply><power/><ci>x</ci><apply><times/><ci>a</ci><ci>b</ci></apply></apply></math>
-verb = (X elevado a la (A multiplicado por B))
+verb = (X elevado a la (A por B))
 
 [ejemplo_4]
 tex = \frac{2f(x)-e^x}{\sin xy^2(x-2)}
 mathml = <math><apply><divide/><apply><minus/><apply><times/><cn>2</cn><apply><ci type="function">f</ci><ci>x</ci></apply></apply><apply><exp/><ci>x</ci></apply></apply><apply><sin/><apply><times/><ci>x</ci><apply><power/><ci>y</ci><cn>2</cn></apply><apply><minus/><ci>x</ci><cn>2</cn></apply></apply></apply></apply></math>
-verb = (((2 multiplicado por (F aplicado a X)) menos (e elevado a la X)) dividido (seno de (X multiplicado por (Y elevado a la 2) multiplicado por (X menos 2))))
+verb = (((2 por (F de X)) menos (e elevado a la X)) dividido (seno de (X por (Y elevado a la 2) por (X menos 2))))
 
 [ejemplo_5]
 tex = \sum_{x=a}^b f(x)
 mathml = <math><apply><sum/><bvar><ci>x</ci></bvar><lowlimit><ci>a</ci></lowlimit><uplimit><ci>b</ci></uplimit><apply><ci type="function">f</ci><ci>x</ci></apply></apply></math>
-verb = (la sumatoria de X que va desde A hasta B de (F aplicado a X))
+verb = (la sumatoria de X que va desde A hasta B de (F de X))
 
 [ejemplo_6]
 tex = \sum_{i=0}^100 x^i
@@ -46,7 +46,7 @@ verb = (A menos B)
 [ejemplo_9]
 tex = a*b
 mathml = <math><apply><times/><ci>a</ci><ci>b</ci></apply></math>
-verb = (A multiplicado por B)
+verb = (A por B)
 
 [ejemplo_10]
 tex = a/b
@@ -96,7 +96,7 @@ verb = (X elevado a la (1 dividido 2))
 [ejemplo_19]
 tex = \cos (2\theta) = \cos^2 \theta - \sin^2 \theta
 mathml = <math><apply><eq/><apply><cos/><apply><times/><cn>2</cn><ci>&theta;</ci></apply></apply><apply><minus/><apply><apply><power/><cos/><cn>2</cn></apply><ci>&theta;</ci></apply><apply><apply><power/><sin/><cn>2</cn></apply><ci>&theta;</ci></apply></apply></apply></math>
-verb = ((cos aplicado a (2 multiplicado por THETA)) es igual a (((cos elevado a la 2) aplicado a THETA) menos ((sin elevado a la 2) aplicado a THETA)))
+verb = ((cos de (2 por THETA)) es igual a (((cos elevado a la 2) de THETA) menos ((sin elevado a la 2) de THETA)))
 
 [ejemplo_20]
 tex = a \not\in \emptyset
@@ -166,12 +166,12 @@ verb = (X es aproximado a 1)
 [ejemplo_33]
 tex = f(x)
 mathml = <math><apply><ci type="function">f</ci><ci>x</ci></apply></math>
-verb = (F aplicado a X)
+verb = (F de X)
 
 [ejemplo_34]
 tex = g(x)
 mathml = <math><apply><ci type="function">g</ci><ci>x</ci></apply></math>
-verb = (G aplicado a X)
+verb = (G de X)
 
 [ejemplo_35]
 tex = a\mid b
@@ -231,7 +231,7 @@ verb = ((raiz cuadrada de (raiz cuadrada de X)) es igual a (raiz 4 de X))
 [ejemplo_46]
 tex = x = \frac{-b + \sqrt {b^2-4ac}}{2a}
 mathml = <math><apply><eq/><ci>x</ci><apply><divide/><apply><plus/><apply><minus/><ci>b</ci></apply><apply><root/><apply><minus/><apply><power/><ci>b</ci><cn>2</cn></apply><apply><times/><cn>4</cn><ci>a</ci><ci>c</ci></apply></apply></apply></apply><apply><times/><cn>2</cn><ci>a</ci></apply></apply></apply></math>
-verb = (X es igual a (((menos B) mas (raiz cuadrada de ((B elevado a la 2) menos (4 multiplicado por A multiplicado por C)))) dividido (2 multiplicado por A)))
+verb = (X es igual a (((menos B) mas (raiz cuadrada de ((B elevado a la 2) menos (4 por A por C)))) dividido (2 por A)))
 
 [ejemplo_47]
 tex = {x | x<5}
@@ -251,4 +251,4 @@ verb = ((maximo entre 1 2 3 4) es igual a 4)
 [ejemplo_50]
 tex = \prod_{x=a}^{b}f(x)
 mathml = <apply><product/><bvar><ci>x</ci></bvar><lowlimit><ci>a</ci></lowlimit><uplimit><ci>b</ci></uplimit><apply><ci type="function">f</ci><ci>x</ci></apply></apply>
-verb = (la productoria de X que va desde A hasta B de (F aplicado a X))
+verb = (la productoria de X que va desde A hasta B de (F de X))

@@ -1,6 +1,6 @@
 [constantes]
 infinity = infinito
-imaginaryi = i
+imaginaryi = I
 integers = conjunto de los enteros
 emptyset = conjunto vacio
 real = el conjunto de los reales
@@ -26,7 +26,7 @@ factorof = $VAR$ divide a $VAR$
 #Operadores basicos
 plus = $VAR$ mas $VAR$
 minus = $VAR$ menos $VAR$, menos $VAR$
-times = $VAR$ multiplicado por $VAR$
+times = $VAR$ por $VAR$
 divide = $VAR$ dividido $VAR$
 power = $VAR$ elevado a la $VAR$
 exp = e elevado a la $VAR$
@@ -52,7 +52,7 @@ setdiff = $VAR$ menos el conjunto $VAR$
 prsubset = $VAR$ es subconjunto de $VAR$
 
 #Funciones conocidas
-function = $VAR$ aplicado a $VAR$
+function = $VAR$ de $VAR$
 inverse = $VAR$ inversa
 max = maximo entre $VAR$
 determinant = determinante de $VAR$
