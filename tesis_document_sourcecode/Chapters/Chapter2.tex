@@ -16,34 +16,34 @@ como el contenido. Su objetivo es integrar las fórmulas matemáticas en las pá
 Forma parte de HTML5 y de un estándar ISO ISO/IEC DIS 40314 desde el año 2015. % [Cita a https://www.w3.org/Math/]
 
 Una de las ventajas de MathML es que es un estándar de representación de fórmulas matemáticas para la World Wide Web (W3) y los principales y más usados
-navegadores de Internet tienen integrado de manera nativa el soporte para éste tipo de contenido haciéndolo una aplicación accessible.
+navegadores de Internet tienen integrado de manera nativa el soporte para éste tipo de contenido haciéndolo una aplicación accesible.
 
 MathML consiste de un número de tags XML que pueden ser usados
-para el marcado de una ecuación en terminos de su representación y su semántica. Ésto último es sumamente importante
-ya que MathML busca capturar el significado detrás de la ecuación además de concentrarse en cómo ésta será formateada y mostrada en pantalla. 
+para el marcado de una ecuación en términos de su representación y su semántica. Ésto último es sumamente importante
+ya que MathML busca capturar el significado detrás de la ecuación además de concentrarse en cómo ésta será formateada y mostrada en pantalla.
 
-MathML busca facilitar el uso y el re uso de contenido científico en la Web. La versátilidad de éste lenguaje de marcado nos permite aprovechar
+MathML busca facilitar el uso y el re uso de contenido científico en la Web. La versatilidad de éste lenguaje de marcado nos permite aprovechar
 su notación para displays visuales de alta calidad y su contenido para aplicaciones más semánticas cómo software científico o sintetizadores de voz.
 
-Como se mencióno MathML codifica tanto la estructura como el contenido de las expresiones matemáticas.
+Como se mencionó MathML codifica tanto la estructura como el contenido de las expresiones matemáticas.
 A través del marcado de presentación (Presentation MathML o PMathML) se pueden desplegar expresiones matemáticas, y mediante el marcado de contenido
 (Content MathML o CMathML) se puede representar el significado de las expresiones matemáticas.
 
 \subsection{PMathML}
 
 El \textbf{marcado de presentación} tiene como objetivo principal describir la estructura de una fórmula matemática.
-Los elementos de presentación corresponden a los \textbf{construcores} de la notación matemática tradicional, en la última versión de MathML se incluyen
-37 tags que pueden ser usados para representar una fórmula matemática. Los tags más usados son \textit{<mi>, <mo>, <mrow>} para indicar una \textit{variables, operadores, 
-expresiones anidadas}, respéctivamente.
+Los elementos de presentación corresponden a los \textbf{constructores} de la notación matemática tradicional, en la última versión de MathML se incluyen
+37 tags que pueden ser usados para representar una fórmula matemática. Los tags más usados son \textit{<mi>, <mo>, <mrow>} para indicar una \textit{variables, operadores,
+expresiones anidadas}, respectivamente.
 
 \subsection{CMathML}
 
 El \textbf{marcado de contenido} tiene como objetivo principal describir la semántica de una fórmula matemática.
 Provee una lista mucho más amplia de tags para ser usados con respecto a PMathML, sumando un total de 129.
-Entre los tags más usados tenemos <apply>, <ci>, <cn>. El primero de ellos se utiliza para hacer explícita la aplicación de un 
-operador a sus childrens (tags hijos), dejándo en claro cual es el scope de aplicación. El segundo tag se utiliza para describir variables y el tercero
+Entre los tags más usados tenemos <apply>, <ci>, <cn>. El primero de ellos se utiliza para hacer explícita la aplicación de un
+operador a sus children's (tags hijos), dejando en claro cuál es el scope de aplicación. El segundo tag se utiliza para describir variables y el tercero
 de ellos se utiliza para describir los números. CMathML contiene un tag en específico para cada operación matemática, lo que lo hace más específico que PMathML
-ya que PMathML contiene un tag solo para algunas operaciones (como la suma ó multiplicación).
+ya que PMathML contiene un tag solo para algunas operaciones (como la suma o multiplicación).
 
 En la siguiente figura se puede observar cómo se describe en PMathML y CMathML para la siguiente fórmula matemática: $x + \frac{a}{b}$
 
@@ -62,9 +62,9 @@ En la siguiente figura se puede observar cómo se describe en PMathML y CMathML 
 
 \subsection{¿Por qué CMathML?}
 Hay ciertas expresiones matemáticas que pueden tener distintas interpretaciones, esto la hace una expresión ambigua, ya que muchas veces
-depende del contexto su correcta interpretación. Supongamos la siguiente formula matemática:
+depende del contexto su correcta interpretación. Supongamos la siguiente fórmula matemática:
 $$f^{-1}$$
-Que puede interpretarse como la función inversa de f o, también como, la variable f eleveado a -1. Para ello veamos como es su marcado tanto en PMathML como en CMathML.
+Que puede interpretarse como la función inversa de f o, también como, la variable f elevado a -1. Para ello veamos cómo es su marcado tanto en PMathML como en CMathML.
 Para PMathML tenemos el siguiente XML:
 \lstset{language=XML}
 \begin{lstlisting}
@@ -76,7 +76,7 @@ Para PMathML tenemos el siguiente XML:
 </math>
 \end{lstlisting}
 
-Podemos ver que, dado que PMathML intenta solo capturar su presentación, su XML asociado sigue siendo ambiguo. Ya que la etiqueta \textit{<msup>} solo 
+Podemos ver que, dado que PMathML intenta solo capturar su presentación, su XML asociado sigue siendo ambiguo. Ya que la etiqueta \textit{<msup>} solo
 señala que -1 es el superíndice de f. Lo que lo vuelve ambiguo tal como se escribe su expresión matemática.
 
 En cambio para CMathML, ya que ésta intenta capturar su semántica, podemos ver que tenemos dos posibles XML asociados a esta fórmula matemática.
@@ -104,20 +104,20 @@ y también tenemos
 </math>
 \end{lstlisting}
 
-Podemos ver que para CMathML queda claro de qué interpretación queremos asociarle al XML. Ya que en el primer caso tenemos el tag \textit{<inverse>}
-aplicado a la variable \textit{f} que habla de la inversa de f. Y en el segundo tenemos el tag \textit{<power>} que denota la exponencia de \textit{-1} aplicado a \textit{f}.
+Podemos ver que para CMathML queda claro de qué interpretación queremos asociar al XML. Ya que en el primer caso tenemos el tag \textit{<inverse>}
+aplicado a la variable \textit{f} que habla de la inversa de f. Y en el segundo tenemos el tag \textit{<power>} que denota el exponente \textit{-1} aplicado a \textit{f}.
 
 Otra ventaja que tiene CMathML sobre PMathML es que existen herramientas para hacer el pasaje de CMathML a PMathML, pero debido a la ambiguedad de PMathML no existe una herramienta que lo haga en la otra dirección.
 
-Esta es la razón principal que CMathML es el adecuado para la PoC que acompaña este trabajo final, es el lenguaje de marcado 
+Esta es la razón principal que CMathML es el adecuado para la PoC que acompaña este trabajo final, es el lenguaje de marcado
 que más se acerca a la lectura en lenguaje natural.
 
 \section{\LaTeX}
 
 \subsection{¿Qué es \LaTeX ?}
 
-Según Wikipedia, \LaTeX\ es un sistema de composición de textos, orientado a la creación de documentos escritos que 
-presenten una alta calidad tipográfica. Por sus características y posibilidades, es usado de forma especialmente intensa en la 
+Según Wikipedia, \LaTeX\ es un sistema de composición de textos, orientado a la creación de documentos escritos que
+presenten una alta calidad tipográfica. Por sus características y posibilidades, es usado de forma especialmente intensa en la
 generación de artículos y libros científicos que incluyen, entre otros elementos, expresiones matemáticas.
 
 Lo cierto es que \LaTeX posee a su disposición muchos paquetes para ser importados que hacen más fácil la escritura de
@@ -125,7 +125,7 @@ expresiones matemáticas. Cualquier expresión matemática puede ser escrita usa
 
 Latex fue diseñado específicamente para ser escrito por humanos por eso éste sistema es el más usado para la generación de archivos científicos y, por lo tanto, muchas expresiones matemáticas
 son escritas con \LaTeX, lo que hace que \LaTeX sea el lenguaje más usado para escribir éste tipo de expresiones.
-Si bien MathML es usado por distintos softwares científicos y navegadores web, no es realmente el lenguaje más usado para escribir expresiones matemáticas desde 
+Si bien MathML es usado por distintos softwares científicos y navegadores web, no es realmente el lenguaje más usado para escribir expresiones matemáticas desde
 el lado del usuario, como lo es \LaTeX.
 
 Esta es la razón por la que \LaTeX es considerado como un tipo de entrada válido para la PoC.
@@ -140,10 +140,10 @@ Podemos notar que, al igual que CMathML, captura la estructura y el contenido de
 algunas expresiones matemáticas en Internet. Tal es así el caso de Wikipedia, que para cada fórmula matemática que tenga presente en algún artículo en línea posee dentro de el atributo \textit{alt} del tag \textit{<img>}
 su descripción en lenguaje \LaTeX.
 
-Por ejemplo, veamos en el artículo que explica las ecuaciones de segundo grado %(Cita: https: es.wikipedia.org wiki Ecuación_de_segundo_grado) en su segunda figura tenemos 
+Por ejemplo, veamos en el artículo que explica las ecuaciones de segundo grado %(Cita: https: es.wikipedia.org wiki Ecuación_de_segundo_grado) en su segunda figura tenemos
 $$x = \frac{-b \pm \sqrt {b^2-4ac}}{2a}$$
 
- mientras que su código HTML tenemos
+mientras que su código HTML tenemos
 \\
 \verb|<img|\\
 \verb|  class="tex" src="expresion.png"|\\
@@ -155,9 +155,9 @@ $$x = \frac{-b \pm \sqrt {b^2-4ac}}{2a}$$
 Si bien la relación entre Latex y CMathML es muy sensible y fina, existe. Comencemos diferenciado éstas tecnologías desde un punto de vista de usabilidad y comprensión, así también desde tipo de entrada.
 
 \begin{itemize}
-\item \textbf{Usabilidad}: Latex es el lenguaje más usado para escribir documentos y artículos científicos, hay tutoriales y documentación con ejemplos para aprender a escribir usando éste lenguaje. Latex funciona desde el lado del usuario (\textit{user-side}), mientras que MathML es la aplicación más usada para renderizar expresiones matemáticas en distintos softwares, y funciona desde el lado del servidor (\textit{server-side}). En muchos artículos se menciona que MathML es la representación que las computadoras entienden de las expresiones que conocemos.
-\item \textbf{Compresión desde el usuario}: Una expresión matemática, tanto escrita con Latex o MathML, pueden ser leídas con el mismo grado de dificultad. Si la expresión es mas avanzada, la lectura desde un humano puede requerir un poco más de atención. Pero a la hora de la escritura, Latex es más amigable que MathML.
-\item \textbf{Tipo de entrada}: MathML saca ventaja sobre Latex de ésto ya que, como se mencionó, MathML es un dialecto XML que nos permite renderizar cualquier expresión matemática y consigo trae todas las ventajas que tiene una aplicación XML. El parser es un componente estándar, por lo tanto no es necesario crear un parser específico para cada versión de lenguaje XML. Esto posibilita el empleo de cualquiera de los analizadores disponibles. De esta manera se evitan bugs y se acelera el desarrollo de aplicaciones. Pero no funciona así con Latex, debido que Latex es un lenguaje de programación y no un estándar puede ser extendido por lo tanto no hay un parser disponible para poder particionar una expresion latex para procesar partes más atómicas. 
+\item \textbf{Usabilidad}: Latex es el lenguaje más usado para escribir documentos y artículos científicos, hay tutoriales y documentación con ejemplos para aprender a escribir usando este lenguaje. Latex funciona desde el lado del usuario (\textit{user-side}), mientras que MathML es la aplicación más usada para renderizar expresiones matemáticas en distintos softwares, y funciona desde el lado del servidor (\textit{server-side}). En muchos artículos se menciona que MathML es la representación que las computadoras entienden de las expresiones que conocemos.
+\item \textbf{Compresión desde el usuario}: Una expresión matemática, tanto escrita con Latex o MathML, pueden ser leídas con el mismo grado de dificultad. Si la expresión es más avanzada, la lectura desde un humano puede requerir un poco más de atención. Pero a la hora de la escritura, Latex es más amigable que MathML.
+\item \textbf{Tipo de entrada}: MathML saca ventaja sobre Latex de ésto ya que, como se mencionó, MathML es un dialecto XML que nos permite renderizar cualquier expresión matemática y consigo trae todas las ventajas que tiene una aplicación XML. El parser es un componente estándar, por lo tanto no es necesario crear un parser específico para cada versión de lenguaje XML. Esto posibilita el empleo de cualquiera de los analizadores disponibles. De esta manera se evitan bugs y se acelera el desarrollo de aplicaciones. Pero no funciona así con Latex, debido que Latex es un lenguaje de programación y no un estándar puede ser extendido por lo tanto no hay un parser disponible para poder particionar una expresión latex para procesar partes más atómicas.
 \end{itemize}
 
 Las conclusiones hasta el momento es que Latex es el lenguaje más elegido por los usuarios y MathML es la aplicación más elegida para desarrollar el software. Es por eso que en ésta tesis se intenta hacer un ligamento entre éstas tecnologías y aprovechar las ventajas de cada uno.
