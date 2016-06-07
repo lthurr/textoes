@@ -77,8 +77,7 @@ La combinación de estos módulos forman a TexToES. Cabe mencionar que cada uno 
 
 \section{SnuggleTeX y Cliente SnuggleTeX}
 
-%(cita a http://www2.ph.ed.ac.uk/snuggletex/documentation/overview-and-features.html)
-SnuggleTeX es una librería Java gratuita y open-source para convertir fragmentos de Latex a XML (usualmente XHTML + MathML). Las funcionalidades principales que SnuggleTex provee son:
+SnuggleTeX\cite{3} es una librería Java gratuita y open-source para convertir fragmentos de Latex a XML (usualmente XHTML + MathML). Las funcionalidades principales que SnuggleTex provee son:
 
 \begin{itemize}
 \item SnuggleTeX convierte de código matemático simple en LaTeX a MathML, puedes obtener tanto PMathML como CMathML.
@@ -90,7 +89,7 @@ Entre otras funcionalidades.
 
 SnuggleTeX es un componente altamente complejo pero que nuestra PoC lo usa como un componente de caja negra, es decir, no conocemos cómo está implementado sólo utilizamos su interfaz y obtenemos sus resultados.
 
-SnuggleTeX es quien se encarga de convertir el código LaTeX, que viene por entrada, a código CMathML para luego alimentar de éste al resto de los componentes para obtener la verbalización.
+SnuggleTeX es quien se encarga de convertir el código LaTeX\cite{4}, que viene por entrada, a código CMathML para luego alimentar de éste al resto de los componentes para obtener la verbalización.
 
 Dado que ésta herramienta provee un mecanismo de conversión de un tipo a otro, podemos olvidarnos de la creación de un parser en específico para LaTeX que intente traducirlo a MathML, simplemente alimentos a SnuggleTeX con el código Latex que deseemos verbalizar y luego manipulamos su salida en CMathML. Actualmente, ST se encuentra hosteado en un servidor para proyectos académicos donde se puede consumir toda su funcionalidad.
 
@@ -175,7 +174,7 @@ La salida del pre-processor para el ejemplo presentado es la siguiente:\\[0.01cm
 
 \section{Generador de Lenguaje}
 
-Éste módulo se encarga de verbalizar el stack que recibe desde el pre-processor. Si bien parece simple leyendo esa descripción pero es el módulo más complejo. El módulo provee una manera de generar texto basado en templates (llamado en procesamiento de lenguaje natural como template-based generators).
+Éste módulo se encarga de verbalizar el stack que recibe desde el pre-processor. Si bien parece simple leyendo esa descripción pero es el módulo más complejo. El módulo provee una manera de generar texto basado en templates (llamado en procesamiento de lenguaje natural como template-based generators\cite{7}).
 
 Procederé a explicar el funcionamiento de éste módulo mediante un ejemplo práctico. Partamos de la siguiente expresión matemática:
 
