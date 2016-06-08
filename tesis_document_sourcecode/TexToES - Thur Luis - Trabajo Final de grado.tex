@@ -124,26 +124,33 @@ headsepline, % Uncomment to get a line under the header
 \end{titlepage}
 
 %----------------------------------------------------------------------------------------
-%	ACKNOWLEDGEMENTS
-%----------------------------------------------------------------------------------------
-
-%\begin{acknowledgements}
-%\addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
-
-%The acknowledgments and the people to thank go here, don't forget to include your project advisor\ldots
-
-%\end{acknowledgements}
-
-%----------------------------------------------------------------------------------------
-%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%	Lista de contenido
 %----------------------------------------------------------------------------------------
 
 \renewcommand{\contentsname}{Contenido}
 \tableofcontents % Prints the main table of contents
 
-%\listoffigures % Prints the list of figures
+%----------------------------------------------------------------------------------------
+%	Agradecimientos
+%----------------------------------------------------------------------------------------
 
-%\listoftables % Prints the list of tables
+\begin{acknowledgements}
+
+Quisiera agradecer especialmente a mi familia, mis padres Carlos y Elba y a mis hermanos. Gracias por su amor y su apoyo incondicional, gracias por siempre apoyarme y ayudarme a ser una mejor persona. Lo que aprendo de ustedes es valiosísimo.
+
+A todas las personas que me acompañaron y me animaron a concluír mi tesis quiero expresarles mis más sinceros agradecimientos.
+
+Agradezco también a todo lo que FaMAF es. FaMAF no solo me ha dado las herramientas necesarias para ser un mejor profesional, sino que me ha dado amigos que me han acompañado todos éstos años. Agradezco a los profesores que siempre han estados dispuestos a evacuar mis dudas con la mejor predisposición.
+
+ También quiero agradecer a todos los que contribuyeron voluntariamente con mi tesis. A todas y cada de las personas que ha colaborado con la evaluación o que me ha hecho sugerencias.
+
+Quiero dar un gigante gracias a la colaboración y apoyo increíble que recibí por parte de mis directoras de tesis, Paula y Laura, me han dado el soporte las veces que lo he necesitado incluso, muchas veces, sin pedirlo.
+
+\hfill ¡Muchas gracias!
+
+\hfill Luis Thur
+
+\end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
 %	ABBREVIATIONS
@@ -157,42 +164,7 @@ headsepline, % Uncomment to get a line under the header
 %\end{abbreviations}
 
 %----------------------------------------------------------------------------------------
-%	PHYSICAL CONSTANTS/OTHER DEFINITIONS
-%----------------------------------------------------------------------------------------
-
-%\begin{constants}{lr@{${}={}$}l} % The list of physical constants is a three column table
-
-% The \SI{}{} command is provided by the siunitx package, see its documentation for instructions on how to use it
-
-%	Speed of Light & $c_{0}$ & \SI{2.99792458e8}{\meter\per\second} (exact)\\
-%Constant Name & $Symbol$ & $Constant Value$ with units\\
-
-%\end{constants}
-
-%----------------------------------------------------------------------------------------
-%	SYMBOLS
-%----------------------------------------------------------------------------------------
-
-%\begin{symbols}{lll} % Include a list of Symbols (a three column table)
-
-%$a$ & distance & \si{\meter} \\
-%$P$ & power & \si{\watt} (\si{\joule\per\second}) \\
-%Symbol & Name & Unit \\
-
-%\addlinespace % Gap to separate the Roman symbols from the Greek
-
-%$\omega$ & angular frequency & \si{\radian} \\
-
-%\end{symbols}
-
-%----------------------------------------------------------------------------------------
-%	DEDICATION
-%----------------------------------------------------------------------------------------
-
-%\dedicatory{For/Dedicated to/To my\ldots} 
-
-%----------------------------------------------------------------------------------------
-%	THESIS CONTENT - CHAPTERS
+%	Capítulos
 %----------------------------------------------------------------------------------------
 
 \mainmatter % Begin numeric (1,2,3...) page numbering
@@ -203,11 +175,13 @@ headsepline, % Uncomment to get a line under the header
 % Uncomment the lines as you write the chapters
 
 \renewcommand{\chaptername}{Capítulo}
+\renewcommand{\figurename}{Figura}
 \include{Chapters/Chapter1}
 \include{Chapters/Chapter2} 
 \include{Chapters/Chapter3}
 \include{Chapters/Chapter4} 
-%\include{Chapters/Chapter5} 
+\include{Chapters/Chapter5}
+\include{Chapters/Chapter6}
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
@@ -217,7 +191,7 @@ headsepline, % Uncomment to get a line under the header
 
 % Include the appendices of the thesis as separate files from the Appendices folder
 % Uncomment the lines as you write the Appendices
-
+\renewcommand\appendixname{Apéndice}
 \include{Appendices/AppendixA}
 %\include{Appendices/AppendixB}
 %\include{Appendices/AppendixC}
