@@ -6,6 +6,9 @@ import re
 class SnuggleTexClient(object):
 
     def __init__(self):
+        """
+        Initialize all the needed to communicate with SnuggleTex
+        """
         self.url = 'https://math-xserver.mitx.mit.edu/snuggletex-webapp-1.2.2'
         self.uris = {
             'mathml_input': '/ASCIIMathMLUpConversionDemo',

@@ -15,7 +15,7 @@ Se asumen tres tipos de entradas que TexToES puede entender.
 \begin{itemize}
 \item{\textbf{LaTeX}}
 
-Dadas las razones explicadas anteriormente, Latex es un tipo de entrada que nuestra PoC puede entender e interpretar. TexToES asume que la expresión latex está encerrada entre \verb|$| para delimitar el inicio y el fin de ésta.
+Dadas las razones explicadas anteriormente, Latex es un tipo de entrada que TexToES puede procesar e interpretar. TexToES asume que la expresión latex está encerrada entre \verb|$| para delimitar el inicio y el fin de ésta.
 
 \textit{Ejemplo}:
 $$\verb|$\max(1, 2, 3, 4) = 4$|$$
@@ -42,7 +42,7 @@ Para cada tipo de entrada obtenemos un texto como tipo de salida que es la repre
 \label{fig:arquitectura}
 \end{figure}
 
-Los engranajes representan \textbf{TexToES} y las flechas señalan la dirección del flujo. Más adelante en este documento explicaré con más detalle cómo se compone la PoC.
+Los engranajes representan \textbf{TexToES} y las flechas señalan la dirección del flujo. Más adelante en este documento explicaré con más detalle cómo está compuesto TexToES.
 
 %----------------------------------------------------------------------------------------
 %  SECTION 2
@@ -87,7 +87,7 @@ SnuggleTeX\cite{3} es una librería Java gratuita y open-source para convertir f
 
 Entre otras funcionalidades.
 
-SnuggleTeX es un componente altamente complejo pero que nuestra PoC lo usa como un componente de caja negra, es decir, no conocemos cómo está implementado sólo utilizamos su interfaz y obtenemos sus resultados.
+SnuggleTeX es un componente altamente complejo y que TexToES lo usa como un componente de caja negra, es decir, no conocemos cómo está implementado sólo utilizamos su interfaz y procesamos sus respuestas.
 
 SnuggleTeX es quien se encarga de convertir el código LaTeX\cite{4}, que viene por entrada, a código CMathML para luego alimentar de éste al resto de los componentes para obtener la verbalización.
 
@@ -131,7 +131,7 @@ También ST puede parsear y dar significado en MathML para funciones pre-definid
 
 Quizás, en algún trabajo futuro, se pueda completar la implementación de SnuggleTeX para aquellos operadores que no estén listados aquí y así agrandar la esfera de acceso de esta herramienta.
 
-Finalmente, TexToES utiliza ST cuando se alimente nuestra PoC con un string que represente LaTeX. Para los casos en donde directamente dispongamos de una entrada en XML CMathML, ST no estará involucrado en este escenario.
+Finalmente, TexToES utiliza ST cuando se alimente con un string que represente LaTeX. Para los casos en donde directamente dispongamos de una entrada en XML CMathML, ST no estará involucrado en este escenario.
 Luego con el XML CMathML, ya sea provisto por el usuario u obtenido con el cliente de SnuggleTeX, entra en acción el siguiente módulo en el flujo.
 
 \section{Pre-procesador}

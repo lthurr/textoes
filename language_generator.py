@@ -9,6 +9,18 @@ class LanguageGenerator(object):
     k_operators = 'operadores'
 
     def generate_sub_language(self, stack, logging=False):
+        """
+        Given a stack, it will return the natural language representation of it.
+        Description:
+            while apply is present in stack, it means that there is still some math expression to translate.
+            So it gets the operator that we need to translate (with self.get_operator) and then it
+            replaces the atomic translation in the stack
+            They repeat the same process until there is no apply in stack, so we consider this fact as we end and in the
+            first position of the stack we have the final transcription.
+        :param stack: stack obtained of preProcessor
+        :param logging:
+        :return:
+        """
         self.replace_constants(stack)
         self.reorganize(stack)
         while 'apply' in stack:
@@ -29,6 +41,17 @@ class LanguageGenerator(object):
             stack[i + 1], stack[i] = stack[i], stack[i + 1]
 
     def get_operator(self, stack):
+        """
+        It returns six elements, given a stack this will return the position where the apply starts
+        and the position where the apply ends. (i and j)
+        the temporary stack, containing the part of the stack from i to j
+        the operator is the transcription for key_op
+        arity is the arity of the operator that we are looking for
+        key_op is the key or tag of cmathml representation of math operator, we need to look up
+         in the language.template for the transcription
+        :param stack:
+        :return:
+        """
         i = self.__rindex(stack, 'apply')
         j = stack.index('end-apply', i)
         temp_stack = stack[i:j]
@@ -51,6 +74,9 @@ class LanguageGenerator(object):
 
     @staticmethod
     def prepare_operator(key_op, operator, values):
+        """
+        Helper that we need to replace the transcription, it is needed to fill when the replacing is not so direct
+        """
         arity = len(values)
         if key_op in ['sum', 'product']:
             i = values.index('bvar')
@@ -121,6 +147,14 @@ class LanguageGenerator(object):
         return operator, values, arity
 
     def replace_values(self, key_op, operator, arity, values):
+        """
+        Until Arity is 1, it will be replacing the values of the tanscription with the values of the stack
+        :param key_op: key_op to obtain transcription
+        :param operator: transcription from template
+        :param arity: arity
+        :param values: Values of the stack
+        :return:
+        """
         assert arity == len(values), "There is more values to unpack"
         result, values, arity = self.prepare_operator(key_op, operator, values)
         if arity == 1:

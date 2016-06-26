@@ -11,12 +11,22 @@ import lxml.etree as etree
 class TexToES(object):
 
     def __init__(self, latex, cmathml, filename, verbose):
+        """
+        :param latex: String containing latex representation of math expression
+        :param cmathml: String containing cmathml repr of math expression
+        :param filename: Path to tex file
+        :param verbose: True or False
+        """
         self.latex = latex
         self.cmathml = cmathml
         self.filename = filename
         self.verbose = verbose
 
     def process_input(self):
+        """
+        Process the differents types of inputs and returns the transcription
+        :return:
+        """
         if self.filename:
             return self.__process_file(self.filename)
         elif self.latex:
@@ -25,6 +35,15 @@ class TexToES(object):
             return self.__process_cmathml(self.cmathml)
 
     def __process_file(self, filename):
+        """
+        Process the filename, description in natural language:
+            Opens filename and while there are latex code between $ will call submethod process_latex
+            to process every latex that appears in the file
+            And then they write a new file containing the same content as filename but with the
+            transcription instead of latex code
+        :param filename: Path to tex file to translate
+        :return:
+        """
         self.__input_logging("File", filename)
         output_filename = os.path.basename(filename).replace('.txt', '_output.txt')
         with open(output_filename, 'w') as out:
@@ -41,6 +60,13 @@ class TexToES(object):
         return open(output_filename, 'r').readlines()
 
     def __process_latex(self, latex_str, logging=False):
+        """
+        Process latex_str, this methods connects with SnuggleTex to get MathMlString and then
+        process it with process_cmathml, then return the verbalization that was generated
+        :param latex_str: Latex String representation of math expression
+        :param logging: True or false, to show the progress
+        :return:
+        """
         snuggletex = SnuggleTexClient()
         mathml_string = snuggletex.latex_to_mathml(latex_str)
         if self.verbose or logging:
@@ -51,6 +77,13 @@ class TexToES(object):
         return verb_generated
 
     def __process_cmathml(self, mathml_string, logging=False):
+        """
+        Process cmathml string, It instantiates PreProcessor to generate the stack asociated to the CmathML input
+        and then generates the transcripcions for every atomic-math-expression present in stack
+        :param mathml_string: Cmathml string representation of math expresion
+        :param logging: to show progress
+        :return:
+        """
         p = PreProcessor()
         if self.verbose or logging:
             xml = etree.fromstring(mathml_string)
@@ -63,6 +96,12 @@ class TexToES(object):
         return verb_generated
 
     def get_transcription_from(self, transcription):
+        """
+        With the help of a regular expression, this obtains the normalization of a transcripcion.
+        For eg, transcription: "2 mas 5" it returns "$TERM$ mas $TERM$".
+        :param transcription: transcription
+        :return:
+        """
         import re
         transcription = re.sub(r'[A-Z]', '$TERM$', transcription)
         transcription = re.sub(r'[0-9]', '$TERM$', transcription)
@@ -78,6 +117,13 @@ class TexToES(object):
 
 
 def evidence_writer(tex_formula, mathml, verb_result):
+    """
+    Writes a new item in the evidence file, it helps to regression textoes
+    :param tex_formula: tex representation of math expression
+    :param mathml: mathml repr of math expression
+    :param verb_result: natural language repr of math expression
+    :return:
+    """
     evidence_file = ConfigObj("evidencia.txt")
     total_of_evidences = len(evidence_file)
     evidence_file['ejemplo_' + str(total_of_evidences)] = {}
